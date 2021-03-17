@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+/out
+/META-INF
+/.idea
+/test
+# Datasource local storage ignored files
+/../../../../../../:\Github\LiveLaps\Back-end\API\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
