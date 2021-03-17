@@ -9,13 +9,16 @@ import java.util.function.Function;
 
 public class TreeArrayList<K,V> extends HashMap<K, ArrayList<V>> {
 
-    public void addAllOn(K key, V ... values){
+    @SuppressWarnings("unused")
+    @SafeVarargs
+    public final void addAllOn(K key, V... values){
         if(!containsKey(key)){
             populate(key);
         }
         get(key).addAll(Arrays.asList(values));
     }
 
+    @SuppressWarnings("unused")
     public void addOn(K key, V value){
         if(!containsKey(key)){
             populate(key);
@@ -29,18 +32,22 @@ public class TreeArrayList<K,V> extends HashMap<K, ArrayList<V>> {
         }
     }
 
+    @SuppressWarnings("unused")
     public void populateAll(Collection<K> keys){
         keys.forEach(this::populate);
     }
 
+    @SuppressWarnings("unused")
     public ArrayList<V> branch(K key){
         return get(key);
     }
 
+    @SuppressWarnings("unused")
     public K getBranchOf(V value){
         return getBranchOf(v -> v.equals(value));
     }
 
+    @SuppressWarnings("unused")
     public K getBranchOf(Function<V, Boolean> inspector){
         K key = null;
         boolean found = false;
@@ -59,6 +66,7 @@ public class TreeArrayList<K,V> extends HashMap<K, ArrayList<V>> {
         return key;
     }
 
+    @SuppressWarnings("unused")
     public void Search(Function<K, Boolean> conditional, Consumer<ArrayList<V>> consumer){
         for (K k : keySet()) {
             if(conditional.apply(k)){
