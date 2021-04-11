@@ -76,5 +76,9 @@ public class TreeArrayList<K,V> extends HashMap<K, ArrayList<V>> {
         }
     }
 
-
+    public void safeForBranch(K branch, Consumer<V> consumer){
+        if(containsKey(branch)){
+            branch(branch).forEach(consumer);
+        }
+    }
 }
