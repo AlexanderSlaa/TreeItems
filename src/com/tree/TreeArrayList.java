@@ -1,5 +1,6 @@
 package com.tree;
 
+import javax.sql.RowSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -81,4 +82,19 @@ public class TreeArrayList<K,V> extends HashMap<K, ArrayList<V>> {
             branch(branch).forEach(consumer);
         }
     }
+
+//    public ArrayList<HorizonSet<K,V>> toRowSet(){
+//        HashMap<K, HorizonSet<K,V>> table = new HashMap<>();
+//        keySet().forEach(k -> {
+//            table.put(k, new HorizonSet<>());
+//        });
+//
+//        table.values().forEach();
+//
+//    }
+//
+//    public static class HorizonSet<K,V> extends HashMap<K,V> {
+//
+//    }
+
 }
