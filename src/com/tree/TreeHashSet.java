@@ -8,7 +8,7 @@ public class TreeHashSet<K, K2, V> extends HashMap<K, HashMap<K2, V>> {
 
     @SuppressWarnings("unused")
     public V put(K key, K2 key2, V value) {
-        if(!containsKey(key2)){
+        if(!containsKey(key)){
             put(key, new HashMap<>());
         }
         return super.get(key).put(key2,value);
