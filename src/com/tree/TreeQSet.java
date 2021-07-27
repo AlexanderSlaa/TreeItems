@@ -65,7 +65,7 @@ public class TreeQSet<K,V> extends HashMap<K, ArrayList<V>> {
     public K getBranchOf(Function<V, Boolean> inspector){
         K key = null;
         boolean found = false;
-        for (Entry<K, Q> entry : this.entrySet()) {
+        for (Entry<K, ? extends ArrayList<V>> entry : this.entrySet()) {
             K k = entry.getKey();
             ArrayList<V> vs = entry.getValue();
             for (V v : vs) {
