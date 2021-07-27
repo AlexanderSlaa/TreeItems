@@ -10,7 +10,7 @@ public class TreeQSet<K,V> extends HashMap<K, ArrayList<V>> {
 
     private final Supplier<? extends ArrayList<V>> collectorSupplier;
 
-    public <Q extends ArrayList<V>>TreeQSet(Supplier<Q> collectorSupplier){
+    public TreeQSet(Supplier<? extends ArrayList<V>> collectorSupplier){
         this.collectorSupplier = collectorSupplier;
     }
 
