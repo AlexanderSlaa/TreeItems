@@ -6,11 +6,11 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
-public class TreeQSet<K,V, Q extends ArrayList<V>> extends HashMap<K, Q> {
+public class TreeQSet<K,V> extends HashMap<K, ArrayList<V>> {
 
-    private final Supplier<Q> collectorSupplier;
+    private final Supplier<? extends ArrayList<V>> collectorSupplier;
 
-    public TreeQSet(Supplier<Q> collectorSupplier){
+    public <Q extends ArrayList<V>>TreeQSet(Supplier<Q> collectorSupplier){
         this.collectorSupplier = collectorSupplier;
     }
 
