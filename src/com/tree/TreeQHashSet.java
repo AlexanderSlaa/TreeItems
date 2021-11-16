@@ -1,29 +1,31 @@
 package com.tree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 @SuppressWarnings("unused")
-public class TreeQHashSet<K, K2, V> extends HashMap<K, HashMap<K2, V>> {
+public class TreeQHashSet<K, Q extends HashMap> extends HashMap<K, Q> {
 
-    private final Supplier<? extends HashMap<K2, V>> collectorSupplier;
+    private final Supplier<Q> collectorSupplier;
 
-    public TreeQHashSet(Supplier<? extends HashMap<K2, V>> collectorSupplier){
+    public TreeQHashSet(Supplier<Q> collectorSupplier){
         this.collectorSupplier = collectorSupplier;
     }
 
     @SuppressWarnings("unused")
-    public V put(K key, K2 key2, V value) {
+    public <K2,V> V put(K key, K2 key2, V value) {
         if(!containsKey(key)){
-            put(key, collectorSupplier.get());
+            put(key, (Q) collectorSupplier.get());
         }
-        return super.get(key).put(key2,value);
+        return (V) super.get(key).put(key2,value);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
-    public HashMap<K2, V> get(Object key) {
+    public Q get(Object key) {
         if(!containsKey(key)){
             put((K) key, collectorSupplier.get());
         }
@@ -31,22 +33,33 @@ public class TreeQHashSet<K, K2, V> extends HashMap<K, HashMap<K2, V>> {
     }
 
     @SafeVarargs
-    public final ArrayList<V> valueSet(K ... filters){
+    public final <V> ArrayList<V> valueSet(K ... filters){
         ArrayList<V> valueSet = new ArrayList<>();
         if(filters.length > 0){
             for (K filter : filters) {
-                valueSet.addAll(get(filter).values());
+                valueSet.addAll((Collection<? extends V>) get(filter).values());
             }
         }else{
-            values().forEach(k2VHashMap -> valueSet.addAll(k2VHashMap.values()));
+            values().forEach(k2VHashMap -> valueSet.addAll((Collection<? extends V>) k2VHashMap.values()));
         }
         return valueSet;
     }
 
+    public <K2, V> TreeQHashSet<K, Q> sort(Q map, BiFunction<K2,V, K> sortFunction){
+        map.forEach((k2, v) -> put(sortFunction.apply((K2)k2,(V)v),k2, v));
+        return this;
+    }
+    public <V> TreeQHashSet<K, Q> sort(Q map, Function<V, K> sortFunction){
+        map.forEach((k2, v) -> put(sortFunction.apply((V) v),k2, v));
+        return this;
+    }
+
     @SuppressWarnings("unused")
-    public void safeFor(K section, TreeSetInterface<V> handler){
+    public <V>  void safeFor(K section, TreeSetInterface<V> handler){
         if(containsKey(section)){
-            valueSet(section).forEach(handler::manipulate);
+            valueSet(section).forEach(o -> {
+                handler.manipulate((V)o);
+            });
         }
     }
 
